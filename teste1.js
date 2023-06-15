@@ -1,15 +1,20 @@
-var data =  require("./fakeData");
+const data =  require("./fakeData");
+const { BAD_REQUEST, NOT_FOUND, OK } = require("./httpStatusCodes");
 
 const getUser = ( req, res, next ) => {
-    
-    var name =  req.query.name;
+    const name = req.query.name;
 
-    for(let i = 0; i < data.length;  i++) {
-        if(i.name == name) {
-            res.send(data[i]);
-        }
+    if (!name) {
+        return res.status(BAD_REQUEST).send({ message: "User name must be present in query parameters" });
     }
 
+    const user = data.find((user) => user.name === name);
+
+    if (!user) {
+        return res.status(NOT_FOUND).send({ message: "User name not found" });
+    }
+
+    return res.status(OK).send({ user });
 };
 
 const getUsers = ( req, res, next ) => {
