@@ -1,12 +1,13 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
+const errorHandler = require('./middlewares/errorHandler');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 
-var teste1 = require("./teste1");
-var teste2 = require("./teste2");
-var teste3 = require("./teste3");
-var teste4 = require("./teste4");
-var teste5 = require("./teste5");
+const teste1 = require("./controllers/teste1");
+const teste2 = require("./controllers/teste2");
+const teste3 = require("./controllers/teste3");
+const teste4 = require("./controllers/teste4");
+const teste5 = require("./controllers/teste5");
 
 
 app.set('view engine', 'jade');
@@ -14,7 +15,7 @@ app.set('view engine', 'jade');
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use(bodyParser.json());                        
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
@@ -35,6 +36,7 @@ app.delete("/users", teste3)
 app.put("/users", teste4)
 app.get("/users/access", teste5);
 
+app.use(errorHandler);
 
 const port  = 3000;
 app.listen(port, function(){
