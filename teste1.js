@@ -1,4 +1,4 @@
-const data =  require("./fakeData");
+const { users, reads } =  require("./fakeData");
 const { BAD_REQUEST, NOT_FOUND, OK } = require("./httpStatusCodes");
 
 const getUser = ( req, res, next ) => {
@@ -8,7 +8,8 @@ const getUser = ( req, res, next ) => {
         return res.status(BAD_REQUEST).send({ message: "User name must be present in query parameters" });
     }
 
-    const user = data.find((user) => user.name === name);
+    const user = users.find((user) => user.name === name);
+    reads[user.id] += 1;
 
     if (!user) {
         return res.status(NOT_FOUND).send({ message: "User name not found" });
@@ -18,7 +19,7 @@ const getUser = ( req, res, next ) => {
 };
 
 const getUsers = ( req, res, next ) => {
-    res.send(data);
+    res.send(users);
 };
 
 module.exports = {

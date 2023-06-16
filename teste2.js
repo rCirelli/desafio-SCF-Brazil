@@ -1,10 +1,10 @@
-const data =  require("./fakeData");
+const { users } =  require("./fakeData");
 const { BAD_REQUEST } = require("./httpStatusCodes");
 
 module.exports = function(req, res){
     const name = req.body.name;
     const job = req.body.job;
-    const id = data.length + 1;
+    const id = users.length + 1;
 
     if (!name || !job) {
         return res.status(BAD_REQUEST).send({ message: "'name' and 'job' fields are required"});
@@ -16,7 +16,7 @@ module.exports = function(req, res){
         job: job,
     }
 
-    data.push(newUser)
+    users.push(newUser)
 
     res.send(newUser);
 };
