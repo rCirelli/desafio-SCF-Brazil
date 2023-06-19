@@ -8,7 +8,9 @@ const teste2 = require("./controllers/teste2");
 const teste3 = require("./controllers/teste3");
 const teste4 = require("./controllers/teste4");
 const teste5 = require("./controllers/teste5");
-
+const validateQueryParams = require('./middlewares/validateQueryParams');
+const validateBody = require('./middlewares/validateBody');
+const tokenAuth = require('./middlewares/tokenAuth');
 
 app.set('view engine', 'jade');
 
@@ -29,12 +31,12 @@ app.get('/', function(req, res){
   `);
 });
 
-app.get("/user", teste1.getUser);
+app.get("/user", validateQueryParams(['name']), teste1.getUser);
 app.get("/users", teste1.getUsers);
-app.post("/users", teste2)
-app.delete("/users", teste3)
-app.put("/users", teste4)
-app.get("/users/access", teste5);
+app.post("/users", validateBody(['name', 'job']),teste2);
+app.delete("/users", tokenAuth, validateQueryParams(['name']),teste3);
+app.put("/users", tokenAuth, validateQueryParams(['id']), validateBody(['name', 'job'], 'one'), teste4);
+app.get("/users/access", validateQueryParams(['name']), teste5);
 
 app.use(errorHandler);
 
