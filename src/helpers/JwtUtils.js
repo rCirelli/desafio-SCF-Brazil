@@ -12,8 +12,8 @@ class JwtUtils {
   }
 
   generateToken(user) {
-    const { username, email, role } = user;
-    const payload = { username, email, role };
+    const { name, job } = user;
+    const payload = { name, job };
 
     return this.jwt.sign(payload, this.jwtSecret);
   }
