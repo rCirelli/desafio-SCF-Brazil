@@ -1,7 +1,11 @@
-const { users, reads } = require('../fakeData');
+const { users } = require('../fakeData');
 const User = require('../models/User');
-const HttpException = require('../utils/HttpException');
-const { NOT_FOUND } = require('../utils/httpStatusCodes');
+const HttpException = require('../helpers/HttpException');
+const { NOT_FOUND } = require('../helpers/httpStatusCodes');
+
+function getAll() {
+  return users;
+}
 
 function findByName(name) {
   const user = users.find((user) => user.name === name);
@@ -53,21 +57,10 @@ function updateUser(id, newName = null, newJob = null) {
   return users[userIndexToUpdate];
 }
 
-function userReads(name) {
-  const user = users.find((user) => user.name === name);
-
-  if (!user) {
-    throw new HttpException(NOT_FOUND, 'User not found');
-  }
-
-  const readTimes = reads[user.id];
-  return readTimes;
-}
-
 module.exports = {
+  getAll,
   findByName,
   createUser,
   deleteUser,
   updateUser,
-  userReads,
 };
