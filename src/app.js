@@ -11,6 +11,7 @@ const teste5 = require("./controllers/teste5");
 const validateQueryParams = require('./middlewares/validateQueryParams');
 const validateBody = require('./middlewares/validateBody');
 const tokenAuth = require('./middlewares/tokenAuth');
+const { loginController } = require('./controllers/login.controller');
 
 app.set('view engine', 'jade');
 
@@ -31,6 +32,7 @@ app.get('/', function(req, res){
   `);
 });
 
+app.post("/login", validateBody(['name', 'job']), loginController);
 app.get("/user", validateQueryParams(['name']), teste1.getUser);
 app.get("/users", teste1.getUsers);
 app.post("/users", validateBody(['name', 'job']),teste2);
