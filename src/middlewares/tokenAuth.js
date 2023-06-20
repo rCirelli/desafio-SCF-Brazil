@@ -1,6 +1,4 @@
-const HttpException = require('../helpers/HttpException');
 const jwtUtils = require('../helpers/JwtUtils');
-const { UNAUTHORIZED } = require('../helpers/httpStatusCodes');
 const services = require('../services');
 
 const tokenAuth = (req, res, next) => {
@@ -10,7 +8,7 @@ const tokenAuth = (req, res, next) => {
   try {
     services.auth.checkCredentials(decoded);
   } catch (error) {
-    next();
+    next(error);
   }
 
   next();
